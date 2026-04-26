@@ -1,8 +1,12 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "AiLex — Veille stratégique automatisée par l'IA",
@@ -37,7 +41,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="dark">
-      <body className={`${inter.className} bg-slate-950 text-white antialiased`}>
+      <body className={`${plusJakartaSans.variable} font-sans bg-slate-950 text-white antialiased`}>
         {children}
       </body>
     </html>

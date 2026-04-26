@@ -77,7 +77,7 @@ export function ArticleFeed({ articles }: Props) {
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-medium text-white hover:text-cyan-400 transition-colors line-clamp-2 block"
+                    className="text-sm font-medium text-white hover:text-cyan-400 transition-colors line-clamp-2 block rounded focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500"
                   >
                     {article.title}
                   </a>
@@ -95,9 +95,10 @@ export function ArticleFeed({ articles }: Props) {
                   href={article.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-white transition-all cursor-pointer flex-shrink-0 mt-1"
+                  aria-label={`Ouvrir dans un nouvel onglet : ${article.title}`}
+                  className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-white transition-all cursor-pointer flex-shrink-0 mt-1 rounded focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                 >
-                  <ExternalLink size={14} />
+                  <ExternalLink size={14} aria-hidden="true" />
                 </a>
               </div>
             </div>

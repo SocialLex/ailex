@@ -117,7 +117,7 @@ export function Features() {
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                className={`glass-card p-6 ${feature.border} hover:scale-[1.02] transition-transform duration-200 cursor-default`}
+                className={`glass-card p-6 ${feature.border} hover:-translate-y-1 hover:bg-white/8 transition-all duration-200`}
               >
                 <div
                   className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}

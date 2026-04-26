@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowRight, Play, Sparkles } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
+import { ArrowRight, Play, Sparkles, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -19,6 +19,8 @@ const stats = [
 ]
 
 export function Hero() {
+  const prefersReducedMotion = useReducedMotion()
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Shader background */}
@@ -89,8 +91,8 @@ export function Hero() {
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
-          <Button size="xl" variant="outline" className="group gap-2">
-            <Play className="w-4 h-4 text-cyan-400" />
+          <Button size="xl" variant="outline" className="group gap-2 cursor-pointer">
+            <Play className="w-4 h-4 text-cyan-400" aria-hidden="true" />
             Voir la démo
           </Button>
         </motion.div>
@@ -118,14 +120,15 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
+        aria-label="Défiler vers le bas"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2"
+          animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors"
         >
-          <div className="w-1 h-2 rounded-full bg-cyan-400" />
+          <ChevronDown size={22} />
         </motion.div>
       </motion.div>
     </section>

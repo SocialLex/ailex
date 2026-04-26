@@ -53,7 +53,7 @@ export function DashboardStats({ articleCount, insightCount, sourceCount }: Prop
         return (
           <div
             key={stat.label}
-            className={`glass-card p-5 ${stat.border}`}
+            className={`glass-card p-5 ${stat.border} hover:bg-white/8 transition-colors duration-200`}
           >
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs text-slate-500 font-medium">{stat.label}</span>
