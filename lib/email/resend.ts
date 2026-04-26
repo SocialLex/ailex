@@ -49,7 +49,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
     </div>
     <div style="padding: 16px 32px; border-top: 1px solid #1e293b; text-align: center;">
       <p style="color: #475569; font-size: 12px; margin: 0;">
-        © ${new Date().getFullYear()} AiLex · <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe" style="color: #64748b;">Se désabonner</a>
+        © ${new Date().getFullYear()} AiLex · <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(to)}" style="color: #64748b;">Se désabonner</a>
       </p>
     </div>
   </div>

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import { DashboardStats } from "@/components/dashboard/stats"
 import { ArticleFeed } from "@/components/dashboard/article-feed"
 import { RecentInsights } from "@/components/dashboard/recent-insights"
+import { OnboardingBanner } from "@/components/dashboard/onboarding-banner"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -37,6 +38,12 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-white mb-1">Tableau de bord</h1>
         <p className="text-slate-400 text-sm">Vue d'ensemble de votre veille stratégique</p>
       </div>
+
+      <OnboardingBanner
+        articleCount={articleCount ?? 0}
+        insightCount={insightCount ?? 0}
+        sourceCount={sourceCount ?? 0}
+      />
 
       <DashboardStats
         articleCount={articleCount ?? 0}

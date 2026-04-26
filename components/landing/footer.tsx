@@ -4,36 +4,34 @@ import { Twitter, Linkedin, Github } from "@/components/ui/social-icons"
 
 const links = {
   Produit: [
-    { label: "Fonctionnalités", href: "#features" },
-    { label: "Tarifs", href: "#pricing" },
-    { label: "Changelog", href: "/changelog" },
-    { label: "Feuille de route", href: "/roadmap" },
-  ],
-  Ressources: [
-    { label: "Documentation", href: "/docs" },
-    { label: "Blog", href: "/blog" },
-    { label: "Guides", href: "/guides" },
-    { label: "API", href: "/docs/api" },
-  ],
-  Entreprise: [
-    { label: "À propos", href: "/about" },
-    { label: "Contact", href: "/contact" },
-    { label: "Partenaires", href: "/partners" },
-    { label: "Presse", href: "/press" },
+    { label: "Fonctionnalités", href: "/#features" },
+    { label: "Tarifs", href: "/#pricing" },
+    { label: "Comment ça marche", href: "/#how-it-works" },
   ],
   Légal: [
     { label: "Politique de confidentialité", href: "/privacy" },
     { label: "Conditions d'utilisation", href: "/terms" },
-    { label: "Cookies", href: "/cookies" },
-    { label: "RGPD", href: "/gdpr" },
+    { label: "RGPD", href: "/privacy#rgpd" },
+    { label: "Cookies", href: "/privacy#cookies" },
+  ],
+  Compte: [
+    { label: "Se connecter", href: "/login" },
+    { label: "S'inscrire", href: "/register" },
+    { label: "Mot de passe oublié", href: "/forgot-password" },
   ],
 }
+
+const socials = [
+  { Icon: Twitter, href: "https://twitter.com/ailexfr", label: "Twitter / X" },
+  { Icon: Linkedin, href: "https://linkedin.com/company/ailex-fr", label: "LinkedIn" },
+  { Icon: Github, href: "https://github.com/ailex-fr", label: "GitHub" },
+]
 
 export function Footer() {
   return (
     <footer className="border-t border-white/10 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Logo size={28} className="mb-4" />
@@ -41,13 +39,16 @@ export function Footer() {
               Automatisez votre veille stratégique avec l'intelligence artificielle.
             </p>
             <div className="flex items-center gap-3">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
+              {socials.map(({ Icon, href, label }) => (
                 <a
-                  key={i}
-                  href="#"
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
                   className="w-9 h-9 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
                 >
-                  <Icon size={16} />
+                  <Icon size={16} aria-hidden="true" />
                 </a>
               ))}
             </div>

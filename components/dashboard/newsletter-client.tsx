@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
 import { Plus, Mail, Send, Loader2, Eye, Trash2, Users, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -19,7 +20,13 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
   const [step, setStep] = useState<"list" | "create" | "compose">("list")
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
-  const [recipients, setRecipients] = useState("raymido28@gmail.com")
+  const [recipients, setRecipients] = useState("")
+
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data: { user } }) => {
+      if (user?.email) setRecipients(user.email)
+    })
+  }, [])
   const [selectedInsights, setSelectedInsights] = useState<string[]>([])
   const [subject, setSubject] = useState("")
   const [htmlContent, setHtmlContent] = useState("")
