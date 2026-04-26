@@ -1,7 +1,11 @@
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM = process.env.RESEND_FROM_EMAIL ?? "AiLex <noreply@ailex.fr>"
+
+function getResend() {
+  if (!process.env.RESEND_API_KEY) throw new Error("RESEND_API_KEY non configurée")
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function sendNewsletter(opts: {
   to: string[]
@@ -9,7 +13,7 @@ export async function sendNewsletter(opts: {
   html: string
   replyTo?: string
 }) {
-  const { data, error } = await resend.emails.send({
+  const { data, error } = await getResend().emails.send({
     from: FROM,
     to: opts.to,
     subject: opts.subject,
@@ -22,7 +26,7 @@ export async function sendNewsletter(opts: {
 }
 
 export async function sendWelcomeEmail(to: string, name: string) {
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM,
     to,
     subject: "Bienvenue sur AiLex !",
@@ -59,7 +63,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
 }
 
 export async function sendPasswordResetEmail(to: string, resetUrl: string) {
-  return resend.emails.send({
+  return getResend().emails.send({
     from: FROM,
     to,
     subject: "Réinitialisation de votre mot de passe AiLex",
