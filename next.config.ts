@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
   headers: async () => [
     { source: "/(.*)", headers: securityHeaders },
   ],
+  turbopack: {
+    root: __dirname,
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.supabase.co" },
