@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Plus_Jakarta_Sans } from "next/font/google"
+import { Providers } from "@/components/providers"
 import "./globals.css"
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -54,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" className="dark">
       <body className={`${plusJakartaSans.variable} font-sans bg-slate-950 text-white antialiased`}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
