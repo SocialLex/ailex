@@ -63,6 +63,15 @@
   }
 }
 
+/* Smooth scroll offset for fixed navbar */
+[id] {
+  scroll-margin-top: 90px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

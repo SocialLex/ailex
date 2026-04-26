@@ -57,8 +57,11 @@ export function ArticleFeed({ articles }: Props) {
 
       <div className="divide-y divide-white/5">
         {filtered.length === 0 ? (
-          <div className="p-10 text-center text-slate-500 text-sm">
-            Aucun article — ajoutez des sources pour commencer
+          <div className="p-10 text-center">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mx-auto mb-3">
+              <Clock size={18} className="text-slate-600" />
+            </div>
+            <p className="text-slate-500 text-sm">Aucun article — ajoutez des sources pour commencer</p>
           </div>
         ) : (
           filtered.map((article) => (

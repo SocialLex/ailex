@@ -29,7 +29,6 @@ const steps = [
 export function HowItWorks() {
   return (
     <section id="how-it-works" className="py-24 relative">
-      {/* Background glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-blue-500/5 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4">
@@ -51,32 +50,35 @@ export function HowItWorks() {
           </p>
         </motion.div>
 
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute top-16 left-[calc(16.67%+2rem)] right-[calc(16.67%+2rem)] h-px bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-cyan-500/50" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+          {/* Connecting dashes between steps — positioned relative to icon row */}
+          <div className="hidden lg:flex absolute top-8 left-0 right-0 items-center justify-center pointer-events-none">
+            <div className="w-full max-w-xl mx-auto flex items-center">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent ml-28 mr-4" />
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent ml-4 mr-28" />
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="relative text-center"
-              >
-                <div className="flex justify-center mb-6">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} p-[1px] glow-cyan-sm`}>
-                    <div className="w-full h-full rounded-2xl bg-slate-950 flex items-center justify-center">
-                      <span className="text-2xl font-bold gradient-text">{step.number}</span>
-                    </div>
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.number}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="relative text-center px-4"
+            >
+              <div className="flex justify-center mb-6">
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} p-[1px] glow-cyan-sm`}>
+                  <div className="w-full h-full rounded-2xl bg-slate-950 flex items-center justify-center">
+                    <span className="text-2xl font-bold gradient-text">{step.number}</span>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
-                <p className="text-slate-400 leading-relaxed">{step.description}</p>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+              <p className="text-slate-400 leading-relaxed">{step.description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
