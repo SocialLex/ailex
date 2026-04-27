@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Plus, Mail, Send, Loader2, Eye, Trash2, Users, Sparkles } from "lucide-react"
+import { Plus, Mail, Send, Loader2, Eye, Trash2, Users, Sparkles, MonitorPlay } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
+import { buildPresentation } from "@/lib/present/parse-slides"
 
 interface Insight { id: string; title: string; content: string; type: string; created_at: string }
 interface Newsletter { id: string; name: string; description: string | null; recipient_emails: string[]; created_at: string }
@@ -194,6 +195,22 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
               {sending ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
               Envoyer la newsletter
             </Button>
+            {htmlContent && (
+              <Button
+                variant="outline"
+                className="gap-2 w-full border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/60"
+                onClick={() => {
+                  const title = subject || activeNewsletter?.name || "Présentation"
+                  const pres = buildPresentation(title, htmlContent)
+                  localStorage.setItem(`ailex_present_${pres.id}`, JSON.stringify(pres))
+                  window.open(`/present/${pres.id}`, `ailex_proj_${pres.id}`)
+                  window.open(`/present/${pres.id}/controls`, `ailex_ctrl_${pres.id}`)
+                }}
+              >
+                <MonitorPlay size={14} />
+                Lancer la présentation
+              </Button>
+            )}
           </div>
         </div>
       </div>
