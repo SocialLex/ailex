@@ -1,15 +1,32 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import Anthropic from "@anthropic-ai/sdk"
+import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
 
 export async function POST(request: Request) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
 
-  const { articles, template, instructions } = await request.json()
+  // Rate limiting: 10 générations / 10 minutes par utilisateur
+  const rl = checkRateLimit(`generation:${user.id}`, { limit: 10, windowSeconds: 600 })
+  if (!rl.allowed) return rateLimitResponse(rl.resetAt)
 
-  if (!articles?.length) return NextResponse.json({ error: "Aucun article sélectionné" }, { status: 400 })
+  const body = await request.json()
+  const { articles, template, instructions } = body
+
+  // Validation basique
+  if (!Array.isArray(articles) || articles.length === 0) {
+    return NextResponse.json({ error: "Aucun article sélectionné" }, { status: 400 })
+  }
+  if (articles.length > 50) {
+    return NextResponse.json({ error: "Maximum 50 articles par génération" }, { status: 400 })
+  }
+  if (typeof instructions === "string" && instructions.length > 2000) {
+    return NextResponse.json({ error: "Instructions trop longues (max 2000 caractères)" }, { status: 400 })
+  }
+
+  if (!articles?.length) return NextResponse.json({ error: "Aucun article sélectionné" }, { status: 400 }) // kept for safety
 
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey || apiKey === "your_anthropic_api_key") {

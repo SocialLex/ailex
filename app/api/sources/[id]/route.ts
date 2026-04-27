@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
+// Champs autorisés pour la mise à jour d'une source (évite la mass assignment)
+const ALLOWED_PATCH_FIELDS = new Set(["name", "url", "enabled", "type", "fetch_interval_hours"])
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -12,9 +15,19 @@ export async function PATCH(
   const { id } = await params
   const body = await request.json()
 
+  // Filtrer les champs non autorisés
+  const safeUpdate: Record<string, unknown> = {}
+  for (const key of Object.keys(body)) {
+    if (ALLOWED_PATCH_FIELDS.has(key)) safeUpdate[key] = body[key]
+  }
+
+  if (Object.keys(safeUpdate).length === 0) {
+    return NextResponse.json({ error: "Aucun champ valide à mettre à jour" }, { status: 400 })
+  }
+
   const { data, error } = await supabase
     .from("sources")
-    .update(body)
+    .update(safeUpdate)
     .eq("id", id)
     .eq("user_id", user.id)
     .select()

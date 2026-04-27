@@ -38,15 +38,15 @@ export function ArticleFeed({ articles }: Props) {
   const filtered = filter === "all" ? articles : articles.filter((a) => a.status === filter)
 
   return (
-    <div className="glass-card border-white/10">
-      <div className="flex items-center justify-between p-5 border-b border-white/10">
-        <h2 className="font-semibold text-white">Flux d'articles</h2>
+    <div className="glass-card">
+      <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-white/10">
+        <h2 className="font-semibold text-slate-900 dark:text-white">Flux d'articles</h2>
         <div className="flex items-center gap-2">
-          <Filter size={14} className="text-slate-500" />
+          <Filter size={14} className="text-slate-400" />
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as typeof filter)}
-            className="text-xs bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-slate-300 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
+            className="text-xs bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
           >
             <option value="all">Tous</option>
             <option value="processed">Analysés</option>
@@ -55,22 +55,22 @@ export function ArticleFeed({ articles }: Props) {
         </div>
       </div>
 
-      <div className="divide-y divide-white/5">
+      <div className="divide-y divide-slate-100 dark:divide-white/5">
         {filtered.length === 0 ? (
           <div className="p-10 text-center">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mx-auto mb-3">
-              <Clock size={18} className="text-slate-600" />
+            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center mx-auto mb-3">
+              <Clock size={18} className="text-slate-400 dark:text-slate-600" />
             </div>
             <p className="text-slate-500 text-sm">Aucun article — ajoutez des sources pour commencer</p>
           </div>
         ) : (
           filtered.map((article) => (
-            <div key={article.id} className="p-4 hover:bg-white/3 transition-colors group">
+            <div key={article.id} className="p-4 hover:bg-slate-50 dark:hover:bg-white/3 transition-colors group">
               <div className="flex items-start gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     {article.sources?.name && (
-                      <span className="text-xs text-cyan-500 font-medium">{article.sources.name}</span>
+                      <span className="text-xs text-cyan-600 dark:text-cyan-500 font-medium">{article.sources.name}</span>
                     )}
                     <Badge variant={statusVariants[article.status] ?? "secondary"}>
                       {statusLabels[article.status] ?? article.status}
@@ -80,7 +80,7 @@ export function ArticleFeed({ articles }: Props) {
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-medium text-white hover:text-cyan-400 transition-colors line-clamp-2 block rounded focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500"
+                    className="text-sm font-medium text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors line-clamp-2 block rounded focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500"
                   >
                     {article.title}
                   </a>
@@ -89,7 +89,7 @@ export function ArticleFeed({ articles }: Props) {
                       {truncate(article.summary, 150)}
                     </p>
                   )}
-                  <div className="flex items-center gap-2 mt-2 text-xs text-slate-600">
+                  <div className="flex items-center gap-2 mt-2 text-xs text-slate-400">
                     <Clock size={11} />
                     {formatDateShort(article.published_at ?? article.created_at)}
                   </div>
@@ -99,7 +99,7 @@ export function ArticleFeed({ articles }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Ouvrir dans un nouvel onglet : ${article.title}`}
-                  className="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-white transition-all cursor-pointer flex-shrink-0 mt-1 rounded focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all cursor-pointer flex-shrink-0 mt-1 rounded focus:opacity-100 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                 >
                   <ExternalLink size={14} aria-hidden="true" />
                 </a>

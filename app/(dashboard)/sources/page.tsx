@@ -14,8 +14,8 @@ export default async function SourcesPage() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-2xl font-bold text-white mb-1">Sources de veille</h1>
-        <p className="text-slate-400 text-sm">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Sources de veille</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Gérez vos flux RSS et sites web surveillés
         </p>
       </div>

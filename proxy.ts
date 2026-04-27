@@ -4,7 +4,6 @@ import { NextResponse, type NextRequest } from "next/server"
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
-  // Si les variables d'environnement Supabase ne sont pas configurées, on laisse passer
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ""
   if (!supabaseUrl.startsWith("http") || !supabaseKey.startsWith("eyJ")) {
@@ -52,6 +51,31 @@ export async function proxy(request: NextRequest) {
 
   if (isProtected && !user) {
     return NextResponse.redirect(new URL("/login", request.url))
+  }
+
+  // Vérifier expiration/révocation du compte (sauf /settings pour permettre l'accès à la facturation)
+  if (user && isProtected && !pathname.startsWith("/settings") && !pathname.startsWith("/support")) {
+    try {
+      const { data: sub } = await supabase
+        .from("subscriptions")
+        .select("status, current_period_end")
+        .eq("user_id", user.id)
+        .single()
+
+      const isRevoked = sub?.status === "canceled"
+      const isExpired = sub?.current_period_end
+        ? new Date(sub.current_period_end) < new Date()
+        : false
+
+      if (isRevoked || isExpired) {
+        const url = new URL("/settings", request.url)
+        url.searchParams.set("tab", "billing")
+        url.searchParams.set("blocked", isRevoked ? "revoked" : "expired")
+        return NextResponse.redirect(url)
+      }
+    } catch {
+      // Ne pas bloquer si la vérification échoue
+    }
   }
 
   // Rediriger les utilisateurs connectés loin des pages auth

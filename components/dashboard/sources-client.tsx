@@ -116,7 +116,7 @@ export function SourcesClient({ initialSources }: Props) {
       {/* Add form */}
       {showForm && (
         <div className="glass-card p-5 border-cyan-500/20">
-          <h3 className="text-white font-semibold mb-4">Nouvelle source</h3>
+          <h3 className="text-slate-900 dark:text-white font-semibold mb-4">Nouvelle source</h3>
 
           {/* Quick add suggestions */}
           <div className="mb-4">
@@ -126,7 +126,7 @@ export function SourcesClient({ initialSources }: Props) {
                 <button
                   key={s.name}
                   onClick={() => addDefaultSource(s)}
-                  className="text-xs px-3 py-1.5 glass rounded-lg text-slate-300 hover:text-white hover:border-cyan-500/30 transition-all cursor-pointer"
+                  className="text-xs px-3 py-1.5 glass rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-cyan-500/30 transition-all cursor-pointer"
                 >
                   {s.name}
                 </button>
@@ -149,7 +149,7 @@ export function SourcesClient({ initialSources }: Props) {
                   onChange={(e) => setName(e.target.value)}
                   required
                   placeholder="Ex: Légifrance"
-                  className="w-full h-9 px-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                  className="w-full h-9 px-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500"
                 />
               </div>
               <div>
@@ -169,7 +169,7 @@ export function SourcesClient({ initialSources }: Props) {
                 required
                 type="url"
                 placeholder="https://exemple.fr/rss.xml"
-                className="w-full h-9 px-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                className="w-full h-9 px-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500"
               />
             </div>
             <div className="flex gap-2 pt-1">
@@ -186,7 +186,7 @@ export function SourcesClient({ initialSources }: Props) {
       )}
 
       {/* Source list */}
-      <div className="glass-card border-white/10 divide-y divide-white/5">
+      <div className="glass-card divide-y divide-slate-100 dark:divide-white/5">
         {sources.length === 0 ? (
           <div className="p-10 text-center text-slate-500">
             <Rss size={32} className="mx-auto mb-3 opacity-30" />
@@ -206,7 +206,7 @@ export function SourcesClient({ initialSources }: Props) {
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-white">{source.name}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-white">{source.name}</span>
                   {source.error_count > 0 && (
                     <Badge variant="destructive">{source.error_count} erreur(s)</Badge>
                   )}

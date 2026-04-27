@@ -53,15 +53,15 @@ export function DashboardStats({ articleCount, insightCount, sourceCount }: Prop
         return (
           <div
             key={stat.label}
-            className={`glass-card p-5 ${stat.border} hover:bg-white/8 transition-colors duration-200`}
+            className={`glass-card p-5 ${stat.border} hover:shadow-sm transition-all duration-200`}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs text-slate-500 font-medium">{stat.label}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-500 font-medium">{stat.label}</span>
               <div className={`w-8 h-8 rounded-lg ${stat.bg} flex items-center justify-center`}>
                 <Icon size={15} className={stat.color} />
               </div>
             </div>
-            <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
             <div className="text-xs text-slate-500">{stat.change}</div>
           </div>
         )

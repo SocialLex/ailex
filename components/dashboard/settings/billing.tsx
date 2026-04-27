@@ -49,13 +49,13 @@ export function BillingSettings() {
   return (
     <div className="space-y-4">
       {success && (
-        <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-lg px-4 py-3 text-green-400 text-sm">
+        <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-lg px-4 py-3 text-green-700 dark:text-green-400 text-sm">
           <CheckCircle size={16} />
           Abonnement activé avec succès !
         </div>
       )}
       {canceled && (
-        <div className="flex items-center gap-2 bg-slate-500/10 border border-slate-500/20 rounded-lg px-4 py-3 text-slate-400 text-sm">
+        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-500/10 border border-slate-200 dark:border-slate-500/20 rounded-lg px-4 py-3 text-slate-600 dark:text-slate-400 text-sm">
           <XCircle size={16} />
           Paiement annulé.
         </div>
@@ -64,17 +64,17 @@ export function BillingSettings() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {plans.map((plan) => (
           <div key={plan.id}
-            className={`glass-card p-5 flex flex-col gap-3 ${plan.highlighted ? "border-cyan-500/30" : "border-white/10"} ${currentPlan === plan.id ? "ring-1 ring-cyan-500/50" : ""}`}>
+            className={`glass-card p-5 flex flex-col gap-3 ${plan.highlighted ? "border-cyan-500/30" : ""} ${currentPlan === plan.id ? "ring-1 ring-cyan-500/50" : ""}`}>
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-white">{plan.name}</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-white">{plan.name}</h3>
               {currentPlan === plan.id && (
                 <Badge><Crown size={10} className="mr-1" />Actuel</Badge>
               )}
             </div>
-            <p className="text-xl font-bold text-white">{plan.price}</p>
+            <p className="text-xl font-bold text-slate-900 dark:text-white">{plan.price}</p>
             <ul className="space-y-1.5 flex-1">
               {plan.features.map((f) => (
-                <li key={f} className="text-xs text-slate-400 flex items-center gap-1.5">
+                <li key={f} className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                   <span className="w-1 h-1 rounded-full bg-cyan-500 flex-shrink-0" />{f}
                 </li>
               ))}

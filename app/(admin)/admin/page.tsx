@@ -28,8 +28,8 @@ export default async function AdminPage() {
   return (
     <div className="space-y-6 max-w-7xl">
       <div>
-        <h1 className="text-2xl font-bold text-white mb-1">Administration</h1>
-        <p className="text-slate-400 text-sm">Vue d'ensemble de la plateforme AiLex</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Administration</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Vue d'ensemble de la plateforme AiLex</p>
       </div>
 
       <AdminStats

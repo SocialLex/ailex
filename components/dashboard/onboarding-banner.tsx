@@ -18,7 +18,7 @@ const steps = [
     description: "Flux RSS, sites web ou APIs à surveiller",
     href: "/sources",
     cta: "Ajouter une source",
-    color: "text-cyan-400",
+    color: "text-cyan-600 dark:text-cyan-400",
     bg: "bg-cyan-500/10",
     border: "border-cyan-500/20",
   },
@@ -28,7 +28,7 @@ const steps = [
     description: "Claude analyse et résume chaque article automatiquement",
     href: "/insights",
     cta: "Voir les insights",
-    color: "text-purple-400",
+    color: "text-purple-600 dark:text-purple-400",
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
   },
@@ -38,7 +38,7 @@ const steps = [
     description: "Générez et envoyez des newsletters personnalisées",
     href: "/newsletter",
     cta: "Créer une newsletter",
-    color: "text-emerald-400",
+    color: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-500/10",
     border: "border-emerald-500/20",
   },
@@ -59,19 +59,19 @@ export function OnboardingBanner({ articleCount, sourceCount, insightCount }: Pr
     >
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h2 className="text-white font-semibold">Bienvenue sur AiLex !</h2>
-          <p className="text-slate-400 text-sm mt-0.5">
+          <h2 className="text-slate-900 dark:text-white font-semibold">Bienvenue sur AiLex !</h2>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">
             Complétez les étapes pour activer votre veille stratégique.
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-slate-400">{completedSteps}/3</span>
+          <span className="text-slate-500 dark:text-slate-400">{completedSteps}/3</span>
           <div className="flex gap-1">
             {steps.map((_, i) => (
               <div
                 key={i}
                 className={`w-6 h-1.5 rounded-full transition-colors ${
-                  counts[i] > 0 ? "bg-cyan-500" : "bg-white/10"
+                  counts[i] > 0 ? "bg-cyan-500" : "bg-slate-200 dark:bg-white/10"
                 }`}
               />
             ))}
@@ -88,21 +88,21 @@ export function OnboardingBanner({ articleCount, sourceCount, insightCount }: Pr
               key={step.title}
               className={`rounded-xl border p-4 flex flex-col gap-3 transition-all ${
                 done
-                  ? "bg-white/3 border-white/5 opacity-60"
+                  ? "bg-slate-50 dark:bg-white/3 border-slate-200 dark:border-white/5 opacity-60"
                   : `${step.bg} ${step.border}`
               }`}
             >
               <div className="flex items-center gap-2">
                 <div className={`w-8 h-8 rounded-lg ${step.bg} flex items-center justify-center`}>
                   {done ? (
-                    <CheckCircle size={16} className="text-emerald-400" />
+                    <CheckCircle size={16} className="text-emerald-500 dark:text-emerald-400" />
                   ) : (
                     <Icon size={16} className={step.color} />
                   )}
                 </div>
-                <span className="text-sm font-medium text-white">{step.title}</span>
+                <span className="text-sm font-medium text-slate-900 dark:text-white">{step.title}</span>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">{step.description}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{step.description}</p>
               {!done && (
                 <Button size="sm" variant="outline" asChild className="mt-auto gap-1.5">
                   <Link href={step.href}>

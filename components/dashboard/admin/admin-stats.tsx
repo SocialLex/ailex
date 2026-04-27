@@ -14,14 +14,14 @@ export function AdminStats({ userCount, articleCount, insightCount }: Props) {
       {stats.map((s) => {
         const Icon = s.icon
         return (
-          <div key={s.label} className="glass-card p-5 border-white/10">
+          <div key={s.label} className="glass-card p-5">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs text-slate-500">{s.label}</span>
               <div className={`w-8 h-8 rounded-lg ${s.bg} flex items-center justify-center`}>
                 <Icon size={15} className={s.color} />
               </div>
             </div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-slate-900 dark:text-white">
               {typeof s.value === "number" ? s.value.toLocaleString("fr-FR") : s.value}
             </div>
           </div>

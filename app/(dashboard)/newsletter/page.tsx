@@ -22,8 +22,8 @@ export default async function NewsletterPage() {
   return (
     <div className="space-y-6 max-w-5xl">
       <div>
-        <h1 className="text-2xl font-bold text-white mb-1">Newsletters</h1>
-        <p className="text-slate-400 text-sm">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Newsletters</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Créez et envoyez des newsletters à partir de vos insights
         </p>
       </div>

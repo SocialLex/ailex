@@ -24,8 +24,8 @@ export default async function InsightsPage() {
   return (
     <div className="space-y-6 max-w-5xl">
       <div>
-        <h1 className="text-2xl font-bold text-white mb-1">Insights IA</h1>
-        <p className="text-slate-400 text-sm">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Insights IA</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">
           Analyses générées automatiquement par Claude
         </p>
       </div>

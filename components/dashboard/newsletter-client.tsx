@@ -105,26 +105,26 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
 
   if (step === "create") {
     return (
-      <div className="glass-card p-6 border-white/10 max-w-lg">
-        <h2 className="text-lg font-semibold text-white mb-5">Nouvelle newsletter</h2>
+      <div className="glass-card p-6 max-w-lg">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5">Nouvelle newsletter</h2>
         <form onSubmit={createNewsletter} className="space-y-4">
           <div>
             <label className="block text-xs text-slate-400 mb-1">Nom</label>
             <input value={name} onChange={(e) => setName(e.target.value)} required
               placeholder="Ma veille juridique"
-              className="w-full h-10 px-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" />
+              className="w-full h-10 px-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" />
           </div>
           <div>
             <label className="block text-xs text-slate-400 mb-1">Description</label>
             <input value={description} onChange={(e) => setDescription(e.target.value)}
               placeholder="Description optionnelle"
-              className="w-full h-10 px-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" />
+              className="w-full h-10 px-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" />
           </div>
           <div>
             <label className="block text-xs text-slate-400 mb-1">Destinataires (séparés par virgule)</label>
             <textarea value={recipients} onChange={(e) => setRecipients(e.target.value)} required rows={3}
               placeholder="email1@exemple.fr, email2@exemple.fr"
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 resize-none" />
+              className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 resize-none" />
           </div>
           <div className="flex gap-2 pt-1">
             <Button type="submit" size="sm">Créer</Button>
@@ -140,7 +140,7 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
       <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="sm" onClick={() => setStep("list")}>← Retour</Button>
-          <h2 className="text-lg font-semibold text-white">{activeNewsletter.name}</h2>
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{activeNewsletter.name}</h2>
           <Badge variant="secondary">
             <Users size={11} className="mr-1" />{activeNewsletter.recipient_emails.length} destinataire(s)
           </Badge>
@@ -154,9 +154,9 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Left: insight selector */}
-          <div className="glass-card border-white/10 p-5">
+          <div className="glass-card p-5">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-white">Sélectionner les insights</h3>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Sélectionner les insights</h3>
               <Button size="sm" variant="outline" onClick={generateContent} disabled={!selectedInsights.length || generating} className="gap-1.5">
                 {generating ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
                 Générer
@@ -169,7 +169,7 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
                     onChange={(e) => setSelectedInsights((p) => e.target.checked ? [...p, ins.id] : p.filter((id) => id !== ins.id))}
                     className="mt-0.5 accent-cyan-500" />
                   <div>
-                    <p className="text-xs font-medium text-white line-clamp-1">{ins.title}</p>
+                    <p className="text-xs font-medium text-slate-900 dark:text-white line-clamp-1">{ins.title}</p>
                     <p className="text-[10px] text-slate-500 mt-0.5">{formatDate(ins.created_at)}</p>
                   </div>
                 </label>
@@ -178,18 +178,18 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
           </div>
 
           {/* Right: editor + send */}
-          <div className="glass-card border-white/10 p-5 flex flex-col gap-3">
+          <div className="glass-card p-5 flex flex-col gap-3">
             <div>
               <label className="block text-xs text-slate-400 mb-1">Objet</label>
               <input value={subject} onChange={(e) => setSubject(e.target.value)}
                 placeholder="Objet de la newsletter"
-                className="w-full h-9 px-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" />
+                className="w-full h-9 px-3 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" />
             </div>
             <div className="flex-1">
               <label className="block text-xs text-slate-400 mb-1">Contenu HTML</label>
               <textarea value={htmlContent} onChange={(e) => setHtmlContent(e.target.value)} rows={12}
                 placeholder="Le contenu HTML sera généré automatiquement par l'IA…"
-                className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-xs text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 resize-none font-mono" />
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 resize-none font-mono" />
             </div>
             <Button onClick={sendNewsletter} disabled={sending || !htmlContent || !subject} variant="gradient" className="gap-2 w-full">
               {sending ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
@@ -231,10 +231,10 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
           </div>
         ) : (
           newsletters.map((nl) => (
-            <div key={nl.id} className="glass-card border-white/10 p-5 flex flex-col gap-3">
+            <div key={nl.id} className="glass-card p-5 flex flex-col gap-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{nl.name}</h3>
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{nl.name}</h3>
                   {nl.description && <p className="text-xs text-slate-500 mt-0.5">{nl.description}</p>}
                 </div>
                 <Badge variant="secondary">
