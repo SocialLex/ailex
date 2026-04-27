@@ -29,13 +29,31 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError("")
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      setError("Email ou mot de passe incorrect.")
+
+    // Timeout de 15s pour éviter le spinner infini
+    const timer = setTimeout(() => {
+      setError("La connexion prend trop de temps. Vérifiez votre connexion.")
       setLoading(false)
-    } else {
-      window.location.href = "/dashboard"
+    }, 15000)
+
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      clearTimeout(timer)
+      if (error) {
+        setError(
+          error.message.toLowerCase().includes("invalid")
+            ? "Email ou mot de passe incorrect."
+            : error.message
+        )
+        setLoading(false)
+      } else {
+        window.location.href = "/dashboard"
+      }
+    } catch (err: unknown) {
+      clearTimeout(timer)
+      setError(err instanceof Error ? err.message : "Une erreur est survenue.")
+      setLoading(false)
     }
   }
 
