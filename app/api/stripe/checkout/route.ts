@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { stripe, PLANS } from "@/lib/stripe/client"
+import { getStripeServer, PLANS } from "@/lib/stripe/client"
 import { z } from "zod"
 
 const schema = z.object({
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     .eq("user_id", user.id)
     .single()
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripeServer().checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "subscription",
     line_items: [{ price: plan.priceId, quantity: 1 }],
