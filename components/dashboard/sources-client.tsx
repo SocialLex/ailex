@@ -32,6 +32,7 @@ export function SourcesClient({ initialSources }: Props) {
   const [type, setType] = useState<"rss" | "url">("rss")
   const [loading, setLoading] = useState(false)
   const [fetchingId, setFetchingId] = useState<string | null>(null)
+  const [fetchResults, setFetchResults] = useState<Record<string, { newArticles: number; total: number }>>({})
   const [error, setError] = useState("")
 
   const addSource = async (e: React.FormEvent) => {
@@ -50,6 +51,8 @@ export function SourcesClient({ initialSources }: Props) {
       setName("")
       setUrl("")
       setShowForm(false)
+      // Auto-fetch the new source
+      fetchNow(data.source.id)
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -64,6 +67,8 @@ export function SourcesClient({ initialSources }: Props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ enabled }),
     })
+    // Auto-fetch when enabling a source
+    if (enabled) fetchNow(id)
   }
 
   const deleteSource = async (id: string) => {
@@ -73,11 +78,19 @@ export function SourcesClient({ initialSources }: Props) {
 
   const fetchNow = async (id: string) => {
     setFetchingId(id)
+    setFetchResults((prev) => { const n = { ...prev }; delete n[id]; return n })
     try {
-      await fetch(`/api/sources/${id}/fetch`, { method: "POST" })
-      const res = await fetch("/api/sources")
+      const res = await fetch(`/api/sources/${id}/fetch`, { method: "POST" })
       const data = await res.json()
-      setSources(data.sources)
+      if (res.ok && data.newArticles !== undefined) {
+        setFetchResults((prev) => ({ ...prev, [id]: { newArticles: data.newArticles, total: data.total ?? 0 } }))
+      }
+      // Refresh sources list to update last_fetched_at
+      const srcRes = await fetch("/api/sources")
+      if (srcRes.ok) {
+        const srcData = await srcRes.json()
+        setSources(srcData.sources ?? srcData)
+      }
     } finally {
       setFetchingId(null)
     }
@@ -199,11 +212,26 @@ export function SourcesClient({ initialSources }: Props) {
                   )}
                 </div>
                 <p className="text-xs text-slate-500 truncate mt-0.5">{source.url}</p>
-                {source.last_fetched_at && (
-                  <p className="text-xs text-slate-600 mt-0.5">
-                    Dernière collecte : {formatDate(source.last_fetched_at)}
-                  </p>
-                )}
+                <div className="flex items-center gap-3 mt-0.5">
+                  {source.last_fetched_at && (
+                    <p className="text-xs text-slate-600">
+                      Collecte : {formatDate(source.last_fetched_at)}
+                    </p>
+                  )}
+                  {fetchingId === source.id && (
+                    <p className="text-xs text-cyan-500 flex items-center gap-1">
+                      <Loader2 size={10} className="animate-spin" />
+                      Collecte en cours…
+                    </p>
+                  )}
+                  {fetchResults[source.id] && fetchingId !== source.id && (
+                    <p className="text-xs text-emerald-400">
+                      {fetchResults[source.id].newArticles === 0
+                        ? `${fetchResults[source.id].total} article(s) déjà à jour`
+                        : `+${fetchResults[source.id].newArticles} nouvel(s) article(s) — accédez à Articles`}
+                    </p>
+                  )}
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
@@ -217,7 +245,7 @@ export function SourcesClient({ initialSources }: Props) {
                   onClick={() => fetchNow(source.id)}
                   disabled={fetchingId === source.id}
                   className="text-slate-500 hover:text-cyan-400 transition-colors cursor-pointer disabled:opacity-50"
-                  aria-label="Actualiser maintenant"
+                  title="Actualiser maintenant"
                 >
                   <RefreshCw size={14} className={fetchingId === source.id ? "animate-spin" : ""} />
                 </button>
@@ -235,7 +263,7 @@ export function SourcesClient({ initialSources }: Props) {
                 <button
                   onClick={() => deleteSource(source.id)}
                   className="text-slate-600 hover:text-red-400 transition-colors cursor-pointer"
-                  aria-label="Supprimer"
+                  title="Supprimer"
                 >
                   <Trash2 size={14} />
                 </button>

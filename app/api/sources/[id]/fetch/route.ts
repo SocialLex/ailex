@@ -32,8 +32,8 @@ export async function POST(
     let newCount = 0
 
     for (const article of articles.slice(0, 50)) {
-      // Upsert — ignore les doublons via la contrainte UNIQUE(user_id, hash)
-      const { data: inserted, error } = await supabase
+      // Fix: ne pas utiliser .single() — ignoreDuplicates renvoie [] si conflit
+      const { data: rows, error } = await supabase
         .from("articles")
         .upsert(
           {
@@ -42,32 +42,31 @@ export async function POST(
             title: article.title,
             content: article.content,
             url: article.url,
-            author: article.author,
-            published_at: article.published_at?.toISOString(),
+            author: article.author ?? null,
+            published_at: article.published_at?.toISOString() ?? null,
             hash: article.hash,
             status: "pending",
+            metadata: {},
           },
           { onConflict: "user_id,hash", ignoreDuplicates: true }
         )
-        .select()
-        .single()
+        .select("id")
 
-      if (!error && inserted) {
+      if (!error && rows && rows.length > 0) {
         newCount++
-        // Analyse AI en arrière-plan (non bloquant)
-        analyzeAndStore(supabase, inserted.id, article.title, article.content, user.id).catch(
+        // Analyse IA en arrière-plan
+        analyzeAndStore(supabase, rows[0].id, article.title, article.content, user.id).catch(
           console.error
         )
       }
     }
 
-    // Mise à jour last_fetched_at
     await supabase
       .from("sources")
       .update({ last_fetched_at: new Date().toISOString(), error_count: 0, last_error: null })
       .eq("id", id)
 
-    return NextResponse.json({ success: true, newArticles: newCount })
+    return NextResponse.json({ success: true, newArticles: newCount, total: articles.length })
   } catch (err: any) {
     await supabase
       .from("sources")
@@ -87,20 +86,27 @@ async function analyzeAndStore(
   userId: string
 ) {
   try {
-    if (!content || content.length < 50) return
+    if (!content || content.length < 30) return
 
     const result = await analyzeArticle(title, content)
 
     await supabase
       .from("articles")
-      .update({ summary: result.summary, status: "processed" })
+      .update({
+        summary: result.summary,
+        status: "processed",
+        metadata: {
+          article_type: result.article_type,
+          newsletter_title: result.newsletter_title,
+          category: result.category,
+        },
+      })
       .eq("id", articleId)
 
-    // Stocker l'insight principal
     await supabase.from("insights").insert({
       user_id: userId,
       article_id: articleId,
-      title: `Analyse : ${title.slice(0, 80)}`,
+      title: result.newsletter_title || `Analyse : ${title.slice(0, 80)}`,
       content: result.summary,
       type: "summary",
       keywords: result.keywords,

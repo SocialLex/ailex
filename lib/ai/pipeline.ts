@@ -12,6 +12,8 @@ export interface AIAnalysisResult {
   keywords: string[]
   category: string
   relevanceScore: number
+  article_type: "jurisprudence" | "legislation" | "reglementation" | "doctrine" | "presse"
+  newsletter_title: string
 }
 
 export async function analyzeArticle(
@@ -26,21 +28,36 @@ export async function analyzeArticle(
     messages: [
       {
         role: "user",
-        content: `Tu es un expert en veille juridique et stratégique. Analyse cet article et réponds UNIQUEMENT en JSON valide.
+        content: `Tu es un expert en veille juridique. Analyse cet article et réponds UNIQUEMENT en JSON valide.
 
 ARTICLE :
 Titre : ${title}
 Contenu : ${truncated}
 
+Détermine le type d'article :
+- "jurisprudence" : décision de justice (arrêt, jugement, ordonnance) — tribunal, cour d'appel, Cour de cassation, Conseil d'État, CJUE, CEDH
+- "legislation" : loi, ordonnance, code
+- "reglementation" : décret, arrêté, circulaire, directive, règlement européen
+- "doctrine" : article de doctrine, commentaire juridique, étude
+- "presse" : article de presse généraliste
+
+Pour newsletter_title :
+- jurisprudence → "Cass. [chambre], [date abrégée] — [sujet en 6-8 mots]" ou "CE, [date] — [sujet]" ou "CJUE, [date] — [sujet]"
+- legislation → "Loi [n° ou nom] — [objet en 6-8 mots]"
+- reglementation → "Décret/Arrêté [n° si dispo] — [objet en 6-8 mots]"
+- doctrine/presse → titre raccourci et nettoyé en 8-10 mots max
+
 Réponds avec ce JSON exact (sans markdown, sans texte avant/après) :
 {
-  "summary": "Résumé en 2-3 phrases en français",
+  "summary": "Résumé en 2-3 phrases en français, factuel et précis",
   "keyInsights": ["insight 1", "insight 2", "insight 3"],
   "risks": ["risque 1", "risque 2"],
   "opportunities": ["opportunité 1", "opportunité 2"],
   "keywords": ["mot-clé 1", "mot-clé 2", "mot-clé 3", "mot-clé 4", "mot-clé 5"],
-  "category": "une catégorie parmi: Législation, Jurisprudence, Réglementation, RH, Fiscal, Social, RGPD, International, Autre",
-  "relevanceScore": 0.8
+  "category": "une catégorie parmi: Jurisprudence, Législation, Réglementation, RH, Fiscal, Social, RGPD, International, Doctrine, Autre",
+  "relevanceScore": 0.8,
+  "article_type": "jurisprudence",
+  "newsletter_title": "Cass. soc., 15 janv. 2026 — Licenciement et protection syndicale"
 }`,
       },
     ],
@@ -51,7 +68,6 @@ Réponds avec ce JSON exact (sans markdown, sans texte avant/après) :
   try {
     return JSON.parse(raw) as AIAnalysisResult
   } catch {
-    // Fallback si le JSON est malformé
     return {
       summary: raw.slice(0, 300),
       keyInsights: [],
@@ -60,6 +76,8 @@ Réponds avec ce JSON exact (sans markdown, sans texte avant/après) :
       keywords: [],
       category: "Autre",
       relevanceScore: 0.5,
+      article_type: "presse",
+      newsletter_title: title.slice(0, 80),
     }
   }
 }

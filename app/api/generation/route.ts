@@ -20,8 +20,8 @@ export async function POST(request: Request) {
 
   // Formater les articles pour le prompt
   const articlesText = articles.map((a: any, i: number) => `
-ARTICLE ${i + 1}
-Titre: ${a.title}
+${a.article_type === "jurisprudence" ? "JURISPRUDENCE" : a.article_type === "legislation" ? "TEXTE LÉGISLATIF" : a.article_type === "reglementation" ? "TEXTE RÉGLEMENTAIRE" : "ARTICLE"} ${i + 1}
+Référence: ${a.title}
 Source: ${a.source}
 Date: ${a.published_at ? new Date(a.published_at).toLocaleDateString("fr-FR") : "Non précisée"}
 URL: ${a.url}
@@ -34,15 +34,17 @@ Résumé: ${a.summary ?? "Pas de résumé disponible"}
 
 [SYNTHESE_GENERALE]
 
-## Articles analysés
+## Jurisprudences & Textes analysés
 
 [ARTICLES_ANALYSES]
+Pour chaque jurisprudence : citation complète (juridiction, chambre, date, numéro de pourvoi si connu), portée de la décision, impact pratique.
+Pour chaque texte : référence officielle, champ d'application, date d'entrée en vigueur.
 
 ## Points d'attention
 
 [POINTS_ATTENTION]
 
-## Recommandations
+## Recommandations pratiques
 
 [RECOMMANDATIONS]`
 
@@ -62,9 +64,11 @@ CONSIGNES:
 - Rédige en français, dans un style professionnel et juridique
 - Remplace les zones entre crochets [XXX] par le contenu approprié
 - Pour [DATE], utilise la date du jour : ${new Date().toLocaleDateString("fr-FR")}
-- Synthétise et analyse les articles avec expertise juridique
-- Identifie les enjeux, les risques et les opportunités
-- Reste factuel et cite les sources quand pertinent
+- Synthétise et analyse les sources avec expertise juridique
+- Pour les jurisprudences : cite précisément la juridiction, chambre et date (ex: "Cass. soc., 15 janv. 2026, n° 24-12.345")
+- Pour les textes réglementaires : cite le numéro officiel et la date de publication au JO
+- Identifie les enjeux, risques et opportunités pour les praticiens du droit
+- Reste factuel et cite toujours la source
 - Si le template contient des balises de formatage, conserve-les
 
 Génère uniquement le contenu final du template rempli, sans commentaires ni introduction.`
