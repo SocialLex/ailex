@@ -44,7 +44,10 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith("/insights") ||
     pathname.startsWith("/newsletter") ||
     pathname.startsWith("/settings") ||
-    pathname.startsWith("/admin")
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/articles") ||
+    pathname.startsWith("/generation") ||
+    pathname.startsWith("/support")
 
   if (isProtected && !user) {
     return NextResponse.redirect(new URL("/login", request.url))
