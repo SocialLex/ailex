@@ -5,9 +5,16 @@ import { useRouter } from "next/navigation"
 import { Pencil, Trash2, ShieldOff, Plus, X, Loader2, UserPlus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { FluidDropdown } from "@/components/ui/fluid-dropdown"
 import { formatDate } from "@/lib/utils"
 
 type Plan = "starter" | "pro" | "enterprise"
+
+const planOptions = [
+  { value: "starter", label: "Starter (gratuit)" },
+  { value: "pro", label: "Pro — 49€/mois" },
+  { value: "enterprise", label: "Enterprise — 199€/mois" },
+]
 
 interface User {
   id: string
@@ -48,9 +55,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 const inputCls = "w-full h-10 px-3 rounded-lg text-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
-const selectCls = inputCls
-
-const planLabels: Record<Plan, string> = { starter: "Starter (gratuit)", pro: "Pro — 49€/mois", enterprise: "Enterprise — 199€/mois" }
 
 // ─── Modale Créer un utilisateur ──────────────────────────
 function CreateUserModal({ onClose }: { onClose: () => void }) {
@@ -89,11 +93,7 @@ function CreateUserModal({ onClose }: { onClose: () => void }) {
           <input className={inputCls} type="password" required placeholder="Minimum 6 caractères" value={form.password} onChange={e => setForm(f => ({ ...f, password: e.target.value }))} />
         </Field>
         <Field label="Plan attribué">
-          <select className={selectCls} value={form.plan} onChange={e => setForm(f => ({ ...f, plan: e.target.value as Plan }))}>
-            {(Object.entries(planLabels) as [Plan, string][]).map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
-            ))}
-          </select>
+          <FluidDropdown options={planOptions} value={form.plan} onChange={v => setForm(f => ({ ...f, plan: v as Plan }))} />
         </Field>
         <Field label="Durée d'activation (jours) — 0 = illimitée">
           <input className={inputCls} type="number" min="0" max="3650" placeholder="0" value={form.durationDays} onChange={e => setForm(f => ({ ...f, durationDays: e.target.value }))} />
@@ -140,11 +140,7 @@ function EditPlanModal({ user, onClose }: { user: User; onClose: () => void }) {
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && <p className="text-xs text-red-500 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
         <Field label="Plan">
-          <select className={selectCls} value={plan} onChange={e => setPlan(e.target.value as Plan)}>
-            {(Object.entries(planLabels) as [Plan, string][]).map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
-            ))}
-          </select>
+          <FluidDropdown options={planOptions} value={plan} onChange={v => setPlan(v as Plan)} />
         </Field>
         <Field label="Nouvelle durée (jours) — 0 = illimitée">
           <input className={inputCls} type="number" min="0" max="3650" placeholder="0" value={durationDays} onChange={e => setDurationDays(e.target.value)} />

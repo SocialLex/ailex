@@ -95,6 +95,29 @@
   }
 }
 
+/* ============================================================
+   ANIMATIONS — PAGES AUTH
+   ============================================================ */
+@keyframes authFadeIn {
+  from { opacity: 0; filter: blur(4px); transform: translateY(12px); }
+  to   { opacity: 1; filter: blur(0px); transform: translateY(0px); }
+}
+
+@keyframes authSlideIn {
+  from { opacity: 0; filter: blur(4px); transform: translateX(20px); }
+  to   { opacity: 1; filter: blur(0px); transform: translateX(0px); }
+}
+
+.animate-auth-in {
+  opacity: 0;
+  animation: authFadeIn 0.45s ease forwards;
+}
+
+.auth-slide-in {
+  opacity: 0;
+  animation: authSlideIn 0.55s ease forwards;
+}
+
 /* Smooth scroll offset pour la navbar fixe */
 [id] {
   scroll-margin-top: 90px;

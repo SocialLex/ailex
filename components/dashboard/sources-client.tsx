@@ -4,8 +4,14 @@ import { useState } from "react"
 import { Plus, Rss, Globe, Trash2, RefreshCw, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { FluidDropdown } from "@/components/ui/fluid-dropdown"
 import { formatDate } from "@/lib/utils"
 import type { Source } from "@/types"
+
+const sourceTypeOptions = [
+  { value: "rss", label: "Flux RSS" },
+  { value: "url", label: "URL (scraping)" },
+]
 
 const defaultSources = [
   { name: "Légifrance", url: "https://www.legifrance.gouv.fr/rss.xml", type: "rss" },
@@ -135,14 +141,11 @@ export function SourcesClient({ initialSources }: Props) {
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1">Type</label>
-                <select
+                <FluidDropdown
+                  options={sourceTypeOptions}
                   value={type}
-                  onChange={(e) => setType(e.target.value as "rss" | "url")}
-                  className="w-full h-9 px-3 bg-white/5 border border-white/10 rounded-lg text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer"
-                >
-                  <option value="rss">Flux RSS</option>
-                  <option value="url">URL (scraping)</option>
-                </select>
+                  onChange={(v) => setType(v as "rss" | "url")}
+                />
               </div>
             </div>
             <div>
