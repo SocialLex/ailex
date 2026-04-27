@@ -5,6 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Logo } from "@/components/ui/logo"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
@@ -30,7 +31,7 @@ export function Navbar() {
       transition={{ duration: 0.5 }}
       className={`fixed top-4 left-4 right-4 z-50 rounded-2xl transition-all duration-300 ${
         scrolled
-          ? "bg-slate-950/90 backdrop-blur-xl border border-white/10 shadow-2xl"
+          ? "bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-lg dark:shadow-2xl"
           : "bg-transparent"
       }`}
     >
@@ -45,14 +46,15 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer"
+              className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer"
             >
               {link.label}
             </a>
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2">
+          <ThemeToggle />
           <Button variant="ghost" size="sm" asChild>
             <Link href="/login">Connexion</Link>
           </Button>
@@ -61,14 +63,17 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden text-slate-400 hover:text-white cursor-pointer"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {/* Mobile */}
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -76,13 +81,13 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-slate-950/95 backdrop-blur-xl border-t border-white/10 rounded-b-2xl px-4 pb-4"
+          className="md:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200 dark:border-white/10 rounded-b-2xl px-4 pb-4"
         >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="block py-3 text-slate-300 hover:text-white transition-colors border-b border-white/5 cursor-pointer"
+              className="block py-3 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors border-b border-slate-100 dark:border-white/5 cursor-pointer"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}

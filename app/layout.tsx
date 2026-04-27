@@ -53,8 +53,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className="dark">
-      <body className={`${plusJakartaSans.variable} font-sans bg-slate-950 text-white antialiased`}>
+    <html lang="fr" suppressHydrationWarning>
+      <body className={`${plusJakartaSans.variable} font-sans antialiased bg-background text-foreground`}>
         <Providers>{children}</Providers>
       </body>
     </html>
