@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import Anthropic from "@anthropic-ai/sdk"
 import { checkRateLimit, rateLimitResponse } from "@/lib/rate-limit"
 
 export async function POST(request: Request) {
@@ -8,34 +7,20 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
 
-  // Rate limiting: 10 générations / 10 minutes par utilisateur
   const rl = checkRateLimit(`generation:${user.id}`, { limit: 10, windowSeconds: 600 })
   if (!rl.allowed) return rateLimitResponse(rl.resetAt)
 
   const body = await request.json()
   const { articles, template, instructions } = body
 
-  // Validation basique
-  if (!Array.isArray(articles) || articles.length === 0) {
+  if (!Array.isArray(articles) || articles.length === 0)
     return NextResponse.json({ error: "Aucun article sélectionné" }, { status: 400 })
-  }
-  if (articles.length > 50) {
+  if (articles.length > 50)
     return NextResponse.json({ error: "Maximum 50 articles par génération" }, { status: 400 })
-  }
-  if (typeof instructions === "string" && instructions.length > 2000) {
+  if (typeof instructions === "string" && instructions.length > 2000)
     return NextResponse.json({ error: "Instructions trop longues (max 2000 caractères)" }, { status: 400 })
-  }
 
-  if (!articles?.length) return NextResponse.json({ error: "Aucun article sélectionné" }, { status: 400 }) // kept for safety
-
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey || apiKey === "your_anthropic_api_key") {
-    return NextResponse.json({ error: "Clé API Anthropic non configurée. Ajoutez ANTHROPIC_API_KEY dans vos variables d'environnement Vercel." }, { status: 503 })
-  }
-
-  const anthropic = new Anthropic({ apiKey })
-
-  // Formater les articles pour le prompt
+  // Formater les articles
   const articlesText = articles.map((a: any, i: number) => `
 ${a.article_type === "jurisprudence" ? "JURISPRUDENCE" : a.article_type === "legislation" ? "TEXTE LÉGISLATIF" : a.article_type === "reglementation" ? "TEXTE RÉGLEMENTAIRE" : "ARTICLE"} ${i + 1}
 Référence: ${a.title}
@@ -67,7 +52,9 @@ Pour chaque texte : référence officielle, champ d'application, date d'entrée 
 
   const templateText = template?.trim() || defaultTemplate
 
-  const prompt = `Tu es un expert en veille juridique et réglementaire. Tu dois rédiger une synthèse de veille juridique professionnelle en français, en remplissant le template fourni avec les articles sélectionnés.
+  const systemPrompt = `Tu es un expert en veille juridique et réglementaire française. Tu rédiges des synthèses de veille juridique professionnelles en français. Tu cites précisément les sources, juridictions et références légales.`
+
+  const userPrompt = `Tu dois rédiger une synthèse de veille juridique professionnelle en remplissant le template ci-dessous avec les articles fournis.
 
 TEMPLATE À REMPLIR:
 ${templateText}
@@ -78,33 +65,81 @@ ${articlesText}
 ${instructions ? `INSTRUCTIONS SPÉCIFIQUES:\n${instructions}\n` : ""}
 
 CONSIGNES:
-- Rédige en français, dans un style professionnel et juridique
-- Remplace les zones entre crochets [XXX] par le contenu approprié
-- Pour [DATE], utilise la date du jour : ${new Date().toLocaleDateString("fr-FR")}
-- Synthétise et analyse les sources avec expertise juridique
-- Pour les jurisprudences : cite précisément la juridiction, chambre et date (ex: "Cass. soc., 15 janv. 2026, n° 24-12.345")
-- Pour les textes réglementaires : cite le numéro officiel et la date de publication au JO
-- Identifie les enjeux, risques et opportunités pour les praticiens du droit
-- Reste factuel et cite toujours la source
-- Si le template contient des balises de formatage, conserve-les
+- Rédige en français, style professionnel et juridique
+- Remplace les zones [XXX] par le contenu approprié
+- Pour [DATE] : ${new Date().toLocaleDateString("fr-FR")}
+- Pour les jurisprudences : cite juridiction, chambre, date (ex: "Cass. soc., 15 janv. 2026, n° 24-12.345")
+- Pour les textes réglementaires : numéro officiel + date de publication au JO
+- Identifie enjeux, risques et opportunités pour les praticiens du droit
+- Reste factuel, cite toujours la source
+- Génère uniquement le contenu final sans commentaires ni introduction`
 
-Génère uniquement le contenu final du template rempli, sans commentaires ni introduction.`
+  /* ── 1. Groq (gratuit — Llama 3.3 70B, 128k contexte) ── */
+  const groqKey = process.env.GROQ_API_KEY
+  if (groqKey) {
+    try {
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${groqKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+          max_tokens: 4096,
+          temperature: 0.3,
+        }),
+      })
 
-  try {
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
-      messages: [{ role: "user", content: prompt }],
-    })
-
-    const content = message.content[0].type === "text" ? message.content[0].text : ""
-
-    return NextResponse.json({
-      success: true,
-      content,
-      usage: message.usage,
-    })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message ?? "Erreur lors de la génération" }, { status: 500 })
+      if (res.ok) {
+        const data = await res.json()
+        const content: string = data.choices?.[0]?.message?.content ?? ""
+        if (content) {
+          return NextResponse.json({ success: true, content, model: "Llama 3.3 70B (Groq)" })
+        }
+      } else {
+        const errData = await res.json().catch(() => ({}))
+        // If rate limit on Groq, fall through to Anthropic
+        if (res.status !== 429) {
+          return NextResponse.json(
+            { error: `Erreur Groq : ${errData?.error?.message ?? res.statusText}` },
+            { status: 500 }
+          )
+        }
+      }
+    } catch {
+      // Network error — fall through to Anthropic
+    }
   }
+
+  /* ── 2. Anthropic Claude (fallback payant) ──────────────── */
+  const anthropicKey = process.env.ANTHROPIC_API_KEY
+  if (anthropicKey && anthropicKey !== "your_anthropic_api_key") {
+    try {
+      const { default: Anthropic } = await import("@anthropic-ai/sdk")
+      const anthropic = new Anthropic({ apiKey: anthropicKey })
+      const message = await anthropic.messages.create({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 4096,
+        messages: [{ role: "user", content: `${systemPrompt}\n\n${userPrompt}` }],
+      })
+      const content = message.content[0].type === "text" ? message.content[0].text : ""
+      return NextResponse.json({ success: true, content, model: "Claude Haiku (Anthropic)" })
+    } catch (err: any) {
+      return NextResponse.json(
+        { error: `Erreur Anthropic : ${err.message ?? "Erreur inconnue"}` },
+        { status: 500 }
+      )
+    }
+  }
+
+  /* ── 3. Aucune clé configurée ───────────────────────────── */
+  return NextResponse.json(
+    {
+      error:
+        "Aucun service IA configuré. Ajoutez GROQ_API_KEY (gratuit sur groq.com) ou ANTHROPIC_API_KEY dans vos variables d'environnement Vercel.",
+    },
+    { status: 503 }
+  )
 }
