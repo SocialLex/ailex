@@ -12,7 +12,7 @@ export default async function ArticlesPage() {
     .select("id, title, summary, url, author, published_at, status, source_id, metadata, sources(name, type)")
     .eq("user_id", user.id)
     .order("published_at", { ascending: false })
-    .limit(100)
+    .limit(300)
 
   return <ArticlesClient articles={articles ?? []} />
 }
