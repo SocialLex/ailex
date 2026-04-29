@@ -26,30 +26,30 @@ export function CtaBanner() {
           </div>
 
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-            Prêt à automatiser
+            Prêt à ne plus rater
             <br />
-            <span className="gradient-text">votre veille stratégique ?</span>
+            <span className="gradient-text">aucune évolution juridique ?</span>
           </h2>
 
           <p className="text-slate-400 text-lg max-w-xl mx-auto mb-8">
-            Rejoignez 2 400+ juristes et compliance officers qui ont choisi AiLex.
+            Rejoignez les juristes, avocats et compliance officers qui ont choisi La Veilleuse.
             Sans carte bancaire. Sans engagement.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button size="xl" variant="gradient" asChild className="group min-w-56">
               <Link href="/register">
-                Commencer gratuitement
+                Démarrer gratuitement
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             <Button size="xl" variant="outline" asChild>
-              <Link href="#pricing">Voir les tarifs</Link>
+              <Link href="#concept">Découvrir le concept</Link>
             </Button>
           </div>
 
           <p className="text-slate-600 text-xs mt-6">
-            Plan Starter gratuit · Upgrade possible à tout moment · Hébergé en 🇫🇷 France
+            Sources officielles uniquement · Hébergé en 🇫🇷 France · Conforme RGPD
           </p>
         </motion.div>
       </div>

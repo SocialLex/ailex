@@ -5,23 +5,23 @@ import { motion } from "framer-motion"
 const steps = [
   {
     number: "01",
-    title: "Configurez vos sources",
+    title: "Activez vos sources officielles",
     description:
-      "Ajoutez vos flux RSS, sites web et APIs en quelques clics. AiLex prend en charge Légifrance, EUR-Lex, Dalloz, et des centaines d'autres sources juridiques.",
+      "En deux clics, activez les flux RSS de Légifrance, du Sénat ou de la Cour de Cassation. La Veilleuse commence à ingérer les textes immédiatement.",
     gradient: "from-cyan-500 to-blue-500",
   },
   {
     number: "02",
-    title: "L'IA analyse en continu",
+    title: "L'IA classe et résume",
     description:
-      "Notre pipeline IA collecte, déduplique et analyse chaque article. Claude extrait les insights clés, identifie les risques et catégorise les informations automatiquement.",
+      "Chaque texte est identifié (jurisprudence, loi, décret, accord), résumé en points clés et titré avec la citation juridique correcte (juridiction, chambre, date).",
     gradient: "from-blue-500 to-purple-500",
   },
   {
     number: "03",
-    title: "Recevez vos insights",
+    title: "Générez votre newsletter",
     description:
-      "Consultez votre dashboard en temps réel ou recevez vos newsletters personnalisées. Chaque insight est sourcé, daté et accompagné d'une analyse contextuelle.",
+      "Sélectionnez les articles pertinents, appuyez sur Générer. La Veilleuse rédige une newsletter juridique professionnelle prête à envoyer à vos clients ou équipes.",
     gradient: "from-purple-500 to-cyan-500",
   },
 ]
@@ -42,11 +42,12 @@ export function HowItWorks() {
             Comment ça marche
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Opérationnel en{" "}
+            Opérationnelle en{" "}
             <span className="gradient-text">moins de 5 minutes</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Pas de configuration complexe. Pas de code. Juste une veille puissante et automatisée.
+            Pas de configuration complexe. Pas de code. Une veille juridique professionnelle
+            automatisée, du texte officiel à la newsletter.
           </p>
         </motion.div>
 

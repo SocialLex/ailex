@@ -14,8 +14,8 @@ const ShaderAnimation = dynamic(
 
 const stats = [
   { value: "10x", label: "Plus rapide qu'une veille manuelle" },
-  { value: "500+", label: "Sources analysées en temps réel" },
-  { value: "99%", label: "Précision de l'analyse IA" },
+  { value: "3", label: "Sources officielles intégrées nativement" },
+  { value: "100%", label: "Français · Officiel · RGPD" },
 ]
 
 export function Hero() {
@@ -50,7 +50,7 @@ export function Hero() {
         >
           <Badge className="mb-6 text-xs px-4 py-1.5 gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
-            Propulsé par Claude AI
+            Propulsé par l'IA · Légifrance · Cour de Cassation · Sénat
           </Badge>
         </motion.div>
 
@@ -60,13 +60,16 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
         >
-          <span className="text-white">Votre veille </span>
-          <br />
+          <span className="text-white">Éclairez </span>
           <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent">
-            stratégique
+            votre droit.
           </span>
           <br />
-          <span className="text-white">automatisée par l'IA</span>
+          <span className="text-white text-4xl md:text-5xl lg:text-6xl font-semibold leading-snug">
+            Ne restez plus dans l'ombre
+            <br />
+            de l'actualité juridique.
+          </span>
         </motion.h1>
 
         <motion.p
@@ -75,8 +78,8 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          AiLex collecte, analyse et synthétise l'information juridique et réglementaire
-          en temps réel. Recevez des insights actionnables directement dans votre boîte mail.
+          La Veilleuse agrège Légifrance, le Sénat et la Cour de Cassation,
+          analyse chaque texte par IA et génère votre newsletter juridique professionnelle en un clic.
         </motion.p>
 
         <motion.div

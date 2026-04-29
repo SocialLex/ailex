@@ -6,65 +6,65 @@ import { Rss, Brain, Mail, BarChart3, Shield, Zap, Globe, Bell } from "lucide-re
 const features = [
   {
     icon: Rss,
-    title: "Ingestion multi-sources",
+    title: "Légifrance & Journal Officiel",
     description:
-      "Agrégez des centaines de flux RSS, sites web et APIs en temps réel. Couverture complète de l'actualité juridique et réglementaire.",
+      "Flux RSS officiel du Journal Officiel intégré nativement. Chaque texte promulgué est capté, analysé et classifié en temps réel.",
     color: "from-cyan-500/20 to-blue-500/20",
     border: "border-cyan-500/20",
   },
   {
     icon: Brain,
-    title: "Analyse par IA Claude",
+    title: "Analyse IA juridique",
     description:
-      "Notre moteur IA analyse, synthétise et extrait les informations clés. Identifiez les risques et opportunités en quelques secondes.",
+      "L'IA identifie le type (arrêt, décret, loi), génère un titre citation précis et résume l'impact pratique pour les professionnels du droit.",
     color: "from-purple-500/20 to-pink-500/20",
     border: "border-purple-500/20",
   },
   {
     icon: Mail,
-    title: "Newsletters automatisées",
+    title: "Newsletters en un clic",
     description:
-      "Créez et planifiez des newsletters personnalisées. Livrez les bons insights aux bonnes personnes, au bon moment.",
+      "Sélectionnez vos articles, choisissez un template, et obtenez une newsletter juridique professionnelle rédigée et prête à envoyer.",
     color: "from-emerald-500/20 to-teal-500/20",
     border: "border-emerald-500/20",
   },
   {
     icon: BarChart3,
-    title: "Tableaux de bord analytics",
+    title: "Tableau de bord unifié",
     description:
-      "Visualisez les tendances, mesurez l'impact de vos newsletters et suivez les métriques qui comptent pour votre activité.",
+      "Vue centralisée de toute l'actualité juridique : jurisprudences, textes législatifs et réglementaires triés par domaine et date.",
     color: "from-orange-500/20 to-amber-500/20",
     border: "border-orange-500/20",
   },
   {
     icon: Shield,
-    title: "Sécurité & conformité RGPD",
+    title: "Sources officielles uniquement",
     description:
-      "Vos données restent en Europe. Chiffrement bout-en-bout, Row Level Security et conformité RGPD intégrée.",
+      "Cour de Cassation, Conseil d'État, Sénat, Légifrance. Zéro bruit médiatique — uniquement des sources à valeur juridique.",
     color: "from-blue-500/20 to-indigo-500/20",
     border: "border-blue-500/20",
   },
   {
     icon: Zap,
-    title: "Traitement en temps réel",
+    title: "Détection instantanée",
     description:
-      "Dès qu'une nouvelle loi, directive ou jurisprudence est publiée, AiLex la détecte, l'analyse et vous alerte instantanément.",
+      "Dès qu'un arrêt ou un texte est publié, La Veilleuse le capte, l'analyse et le rend disponible dans votre tableau de bord.",
     color: "from-yellow-500/20 to-orange-500/20",
     border: "border-yellow-500/20",
   },
   {
     icon: Globe,
-    title: "Veille internationale",
+    title: "Filtres par domaine juridique",
     description:
-      "Surveillez les évolutions réglementaires en France, en Europe et à l'international. Support multilingue intégré.",
+      "Droit civil, pénal, social, public ou des affaires. Personnalisez votre veille selon votre spécialité pour ne voir que l'essentiel.",
     color: "from-rose-500/20 to-pink-500/20",
     border: "border-rose-500/20",
   },
   {
     icon: Bell,
-    title: "Alertes intelligentes",
+    title: "Sécurité & conformité RGPD",
     description:
-      "Définissez vos mots-clés et recevez des alertes contextualisées dès qu'un sujet critique émerge dans votre domaine.",
+      "Données hébergées en Europe, chiffrement bout-en-bout, Row Level Security Supabase. Votre veille reste votre veille.",
     color: "from-violet-500/20 to-purple-500/20",
     border: "border-violet-500/20",
   },
@@ -94,13 +94,13 @@ export function Features() {
             Fonctionnalités
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Tout ce dont vous avez besoin
+            Tout ce qu'il faut pour
             <br />
-            <span className="gradient-text">pour une veille efficace</span>
+            <span className="gradient-text">une veille juridique de qualité</span>
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Une plateforme complète qui automatise l'ensemble du cycle de veille stratégique,
-            de la collecte à la diffusion.
+            Sources officielles, analyse IA, classification automatique et newsletters
+            professionnelles — réunis dans une seule plateforme dédiée au droit français.
           </p>
         </motion.div>
 

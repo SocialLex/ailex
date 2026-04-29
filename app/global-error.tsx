@@ -216,7 +216,7 @@ export default function GlobalError({
               Une erreur inattendue s'est produite
             </h1>
             <p style={{ color: "#94a3b8", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: "1.5rem", marginTop: 0 }}>
-              AiLex a rencontré une erreur interne. Notre équipe a été notifiée automatiquement.
+              La Veilleuse a rencontré une erreur interne. Notre équipe a été notifiée automatiquement.
               Vous pouvez réessayer ou retourner à l'accueil.
             </p>
 
@@ -244,7 +244,7 @@ export default function GlobalError({
 
           {/* Ligne de statut */}
           <p style={{ color: "#334155", fontSize: "0.7rem", letterSpacing: "0.12em", textTransform: "uppercase", margin: 0 }}>
-            AiLex · Intelligence Juridique · Erreur interne
+            La Veilleuse · Intelligence Juridique · Erreur interne
           </p>
         </div>
       </body>

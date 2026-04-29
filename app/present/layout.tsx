@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-export const metadata: Metadata = { title: "AiLex — Présentation" }
+export const metadata: Metadata = { title: "La Veilleuse — Présentation" }
 
 export default function PresentLayout({ children }: { children: React.ReactNode }) {
   return (

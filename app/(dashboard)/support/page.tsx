@@ -14,8 +14,8 @@ const sources = [
 const steps = [
   { icon: Search, title: "Chercher le flux sur le site", desc: 'Cherchez une icône RSS (🔶) ou un lien "Flux RSS", "Feed", "Atom" en bas de page ou dans le header.' },
   { icon: Globe, title: "Tester les URLs standard", desc: 'La plupart des sites proposent un flux à /rss.xml, /feed, /rss ou /atom.xml. Essayez ces variantes directement dans votre navigateur.' },
-  { icon: CheckCircle, title: "Valider le flux", desc: 'Collez l\'URL dans un validateur comme validator.w3.org/feed pour vérifier que le flux est valide avant de l\'ajouter à AiLex.' },
-  { icon: Zap, title: "Ajouter dans AiLex", desc: 'Une fois l\'URL confirmée, allez dans "Sources", cliquez "Ajouter une source" et collez l\'URL. AiLex collectera automatiquement les articles.' },
+  { icon: CheckCircle, title: "Valider le flux", desc: 'Collez l\'URL dans un validateur comme validator.w3.org/feed pour vérifier que le flux est valide avant de l\'ajouter à La Veilleuse.' },
+  { icon: Zap, title: "Ajouter dans La Veilleuse", desc: 'Une fois l\'URL confirmée, allez dans "Sources", cliquez "Ajouter une source" et collez l\'URL. AiLex collectera automatiquement les articles.' },
 ]
 
 export default function SupportPage() {
@@ -23,7 +23,7 @@ export default function SupportPage() {
     <div className="max-w-4xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Centre d'aide</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm">Tout ce qu'il faut savoir pour configurer et utiliser AiLex efficacement.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Tout ce qu'il faut savoir pour configurer et utiliser La Veilleuse efficacement.</p>
       </div>
 
       {/* Qu'est-ce qu'un flux RSS */}

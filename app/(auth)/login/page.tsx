@@ -85,7 +85,7 @@ export default function LoginPage() {
               Bon retour !
             </h1>
             <p className="text-slate-500 dark:text-slate-400 text-sm mt-1.5">
-              Connectez-vous à votre espace AiLex
+              Connectez-vous à votre espace La Veilleuse
             </p>
           </div>
 

@@ -59,7 +59,7 @@ export function OnboardingBanner({ articleCount, sourceCount, insightCount }: Pr
     >
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h2 className="text-slate-900 dark:text-white font-semibold">Bienvenue sur AiLex !</h2>
+          <h2 className="text-slate-900 dark:text-white font-semibold">Bienvenue sur La Veilleuse !</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-0.5">
             Complétez les étapes pour activer votre veille stratégique.
           </p>

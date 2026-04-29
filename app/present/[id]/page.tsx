@@ -81,7 +81,7 @@ export default function ProjectionPage() {
           {slide.type === "cover" && (
             <div className="text-center space-y-6">
               {/* AiLex wordmark */}
-              <p className="text-xs font-semibold tracking-[0.25em] text-cyan-500 uppercase mb-8">AiLex</p>
+              <p className="text-xs font-semibold tracking-[0.25em] text-cyan-500 uppercase mb-8">La Veilleuse</p>
               <h1
                 className="text-6xl md:text-7xl font-bold text-white leading-tight"
                 style={GARAMOND}
@@ -135,7 +135,7 @@ export default function ProjectionPage() {
                   <p key={i} className="text-xl text-slate-400">{kp}</p>
                 ))}
               </div>
-              <p className="text-xs tracking-[0.25em] text-cyan-500 uppercase mt-10">AiLex</p>
+              <p className="text-xs tracking-[0.25em] text-cyan-500 uppercase mt-10">La Veilleuse</p>
             </div>
           )}
         </motion.div>

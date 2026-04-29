@@ -141,7 +141,7 @@ export default function NotFound() {
 
         {/* Subtle status line */}
         <p style={{ marginTop: "1.5rem", color: "#475569", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-          AiLex · Erreur 404 · Page non trouvée
+          La Veilleuse · Erreur 404 · Page non trouvée
         </p>
       </div>
 

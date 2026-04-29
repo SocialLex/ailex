@@ -68,7 +68,7 @@ export function NewsletterClient({ newsletters: initial, availableInsights }: Pr
       })
       const data = await res.json()
       setHtmlContent(data.html ?? "")
-      if (!subject) setSubject(`Veille AiLex — ${new Date().toLocaleDateString("fr-FR")}`)
+      if (!subject) setSubject(`Veille juridique — ${new Date().toLocaleDateString("fr-FR")}`)
     } finally {
       setGenerating(false)
     }

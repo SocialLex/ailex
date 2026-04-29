@@ -33,7 +33,7 @@ function SlidePreview({
       <div className="relative z-10 flex flex-col h-full">
         {slide.type === "cover" && (
           <div className={`flex flex-col items-center justify-center h-full text-center ${mini ? "gap-1" : "gap-4"}`}>
-            {!mini && <p className="text-[10px] tracking-widest text-cyan-500 uppercase font-semibold">AiLex</p>}
+            {!mini && <p className="text-[10px] tracking-widest text-cyan-500 uppercase font-semibold">La Veilleuse</p>}
             <h2
               style={GARAMOND}
               className={`font-bold text-white leading-tight ${mini ? "text-[8px]" : "text-2xl"}`}
@@ -81,7 +81,7 @@ function SlidePreview({
             >
               {slide.title}
             </h2>
-            {!mini && <p className="text-[10px] tracking-widest text-cyan-500 uppercase">AiLex</p>}
+            {!mini && <p className="text-[10px] tracking-widest text-cyan-500 uppercase">La Veilleuse</p>}
           </div>
         )}
       </div>

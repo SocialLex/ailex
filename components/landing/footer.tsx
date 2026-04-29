@@ -5,7 +5,7 @@ import { Twitter, Linkedin, Github } from "@/components/ui/social-icons"
 const links = {
   Produit: [
     { label: "Fonctionnalités", href: "/#features" },
-    { label: "Tarifs", href: "/#pricing" },
+    { label: "Concept & Tips", href: "/#concept" },
     { label: "Comment ça marche", href: "/#how-it-works" },
   ],
   Légal: [
@@ -36,7 +36,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Logo size={28} className="mb-4" />
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Automatisez votre veille stratégique avec l'intelligence artificielle.
+              Éclairez votre droit. Légifrance, Sénat, Cour de Cassation analysés par IA.
             </p>
             <div className="flex items-center gap-3">
               {socials.map(({ Icon, href, label }) => (
@@ -76,7 +76,7 @@ export function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} AiLex. Tous droits réservés.
+            © {new Date().getFullYear()} La Veilleuse. Tous droits réservés.
           </p>
           <div className="flex items-center gap-2 text-slate-500 text-sm">
             <span>Hébergé en</span>
